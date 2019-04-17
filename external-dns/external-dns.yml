@@ -60,6 +60,7 @@ subjects:
     name: external-dns
     namespace: ingress-nginx
 --- 
+--- 
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
@@ -128,5 +129,9 @@ spec:
             requests: 
               cpu: 50m
               memory: 50Mi
+      replicas: 1
+      selector: 
+        app: external-dns
+        matchLabels: ~
       serviceAccountName: external-dns
 ---
