@@ -1,69 +1,91 @@
----
+--- 
 apiVersion: v1
 kind: Namespace
-metadata:
+metadata: 
   name: glusterstorage
+
 ---
 apiVersion: v1
+data: 
+  .dockerconfigjson: ewogICJhdXRocyI6IHsKICAgICJtdHIuZXh0ZXJuYWwub3RjLnRlbGVrb21jbG91ZC5jb20iOiB7CiAgICAgICJhdXRoIjogImJXTnpjSE1yYlhSeVpHVndiRzk1WlhJNlZsZzJSVFJLVXpJeVRFUktUVkJVTWpreU0xQlFPVTFVV2sweE0wNVVOVVJST1RNeU1ETkpWbFJNU2sxQlVVdEhXVmsxVlRJeldWWkhWVVkyU1VwWk1nPT0iLAogICAgICAiZW1haWwiOiAiIgogICAgfQogIH0KfQ==
 kind: Secret
-metadata:
+metadata: 
   name: mcsps-mtrdeployer-pull-secret
   namespace: glusterstorage
-data:
-  .dockerconfigjson: ewogICJhdXRocyI6IHsKICAgICJtdHIuZXh0ZXJuYWwub3RjLnRlbGVrb21jbG91ZC5jb20iOiB7CiAgICAgICJhdXRoIjogImJXTnpjSE1yYlhSeVpHVndiRzk1WlhJNlZsZzJSVFJLVXpJeVRFUktUVkJVTWpreU0xQlFPVTFVV2sweE0wNVVOVVJST1RNeU1ETkpWbFJNU2sxQlVVdEhXVmsxVlRJeldWWkhWVVkyU1VwWk1nPT0iLAogICAgICAiZW1haWwiOiAiIgogICAgfQogIH0KfQ==
 type: kubernetes.io/dockerconfigjson
+
 ---
 apiVersion: v1
 kind: ServiceAccount
-metadata:
+metadata: 
   name: glusterdeploy
   namespace: glusterstorage
----
+
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
+metadata: 
   name: glusterdeploy-role
-rules:
-- apiGroups: ["", "extensions", "apps", "autoscaling","batch", "networking.k8s.io", "policy", "authentication.k8s.io", "storage.k8s.io", "certmanager.k8s.io", "rbac.authorization.k8s.io"]
-  resources: ["*"]
-  verbs: ["*"]
----
-kind: ClusterRoleBinding
+rules: 
+  - 
+    apiGroups: 
+      - ""
+      - extensions
+      - apps
+      - autoscaling
+      - batch
+      - networking.k8s.io
+      - policy
+      - authentication.k8s.io
+      - storage.k8s.io
+      - certmanager.k8s.io
+      - rbac.authorization.k8s.io
+    resources: 
+      - "*"
+    verbs: 
+      - "*"
+
+--- 
 apiVersion: rbac.authorization.k8s.io/v1
-metadata:
+kind: ClusterRoleBinding
+metadata: 
   name: glusterdeploy-rolebinding
-roleRef:
+roleRef: 
   apiGroup: ""
   kind: ClusterRole
   name: glusterdeploy-role
-subjects:
-- kind: ServiceAccount
-  name: glusterdeploy
-  namespace: glusterstorage
----
+subjects: 
+  - 
+    kind: ServiceAccount
+    name: glusterdeploy
+    namespace: glusterstorage
+
+--- 
 apiVersion: apps/v1
 kind: Deployment
-metadata:
+metadata: 
+  labels: 
+    app: glusterdeploy
   name: gluster-deployment
   namespace: glusterstorage
-  labels:
-    app: glusterdeploy
-spec:
+spec: 
   replicas: 1
-  selector:
-    matchLabels:
+  selector: 
+    matchLabels: 
       app: glusterdeploy
-  template:
-    metadata:
-      labels:
+  template: 
+    metadata: 
+      labels: 
         app: glusterdeploy
-    spec:   
-      serviceAccountName: glusterdeploy
-      containers:
-        - name: glusterdeploy
-          image: mtr.external.otc.telekomcloud.com/mcsps/glusterdeploy:master
+    spec: 
+      containers: 
+        - 
+          command: 
+            - /docker-entrypoint.sh
+          image: "mtr.external.otc.telekomcloud.com/mcsps/glusterdeploy:master"
           imagePullPolicy: Always
-          command: [ "/docker-entrypoint.sh" ]
-      imagePullSecrets:
-        - name: mcsps-mtrdeployer-pull-secret
----
+          name: glusterdeploy
+      imagePullSecrets: 
+        - 
+          name: mcsps-mtrdeployer-pull-secret
+      serviceAccountName: glusterdeploy
