@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -196,3 +197,4 @@ spec:
               cpu: 50m
               memory: 50Mi
       serviceAccountName: external-dns
+---

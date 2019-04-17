@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -65,3 +66,4 @@ spec:
           command: [ "/docker-entrypoint.sh" ]
       imagePullSecrets:
         - name: mcsps-mtrdeployer-pull-secret
+---
