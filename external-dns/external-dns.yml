@@ -60,18 +60,21 @@ subjects:
     name: external-dns
     namespace: ingress-nginx
 --- 
---- 
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
-  name: external-dns
-  namespace: ingress-nginx
-spec: 
-  strategy: 
-    type: Recreate
-  template: 
-    metadata: 
-      labels: 
+metadata:
+  name: external-dns-deployment
+  namespace: glusterstorage
+  labels:
+    app: external-dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
         app: external-dns
     spec: 
       containers: 
@@ -129,9 +132,4 @@ spec:
             requests: 
               cpu: 50m
               memory: 50Mi
-      replicas: 1
-      selector: 
-        app: external-dns
-        matchLabels: ~
       serviceAccountName: external-dns
----
