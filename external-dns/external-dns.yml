@@ -69,7 +69,7 @@ metadata:
   labels: 
     app: external-dns
   name: external-dns-deployment
-  namespace: glusterstorage
+  namespace: ingress-nginx
 spec: 
   replicas: 1
   selector: 
