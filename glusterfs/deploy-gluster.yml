@@ -80,6 +80,13 @@ spec:
     spec: 
       containers: 
         - 
+          env: 
+            - 
+              name: nodenumber
+              valueFrom: 
+                configMapKeyRef:
+                  key: nodenumber
+                  name: glusterdeploy
           command: 
             - /docker-entrypoint.sh
           image: "mtr.external.otc.telekomcloud.com/mcsps/glusterdeploy:master"
