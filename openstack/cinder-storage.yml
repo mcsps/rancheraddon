@@ -1,7 +1,7 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: SATA
+  name: sata
 provisioner: kubernetes.io/cinder
 parameters:
   type: SATA
@@ -10,7 +10,7 @@ parameters:
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: SAS
+  name: sas
 provisioner: kubernetes.io/cinder
 parameters:
   type: SAS
@@ -19,7 +19,7 @@ parameters:
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: SSD
+  name: ssd
 provisioner: kubernetes.io/cinder
 parameters:
   type: SSD
