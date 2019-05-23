@@ -138,12 +138,13 @@ spec:
                 secretKeyRef: 
                   key: OS_USER_DOMAIN_NAME
                   name: otccred
-          image: "mtr.external.otc.telekomcloud.com/mcsps/external-dns:v0.5.13-mcs-1"
+#          image: "mtr.external.otc.telekomcloud.com/mcsps/external-dns:v0.5.13-mcs-1"
+          image: registry.opensource.zalan.do/teapot/external-dns
           name: external-dns
           resources: 
             requests: 
               cpu: 50m
               memory: 50Mi
       serviceAccountName: external-dns
-      imagePullSecrets: 
-        - name: mcsps-mtrdeployer-pull-secret
+#      imagePullSecrets: 
+#        - name: mcsps-mtrdeployer-pull-secret
