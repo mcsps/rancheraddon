@@ -71,6 +71,7 @@ subjects:
   - 
     kind: ServiceAccount
     name: external-dns
+    namespace: ingress-nginx
 
 --- 
 apiVersion: apps/v1
