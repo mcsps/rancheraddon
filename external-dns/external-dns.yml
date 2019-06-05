@@ -94,14 +94,15 @@ spec:
       containers: 
         - 
           args: 
-            - "--source=service"
+            - "--domain-filter=mcsps.telekomcloud.com"
             - "--source=ingress"
-            - "--domain-filter=mcskube.de"
+            - "--source=service"
             - "--provider=designate"
             - "--registry=txt"
             - "--txt-prefix=_mcs_"
             - "--txt-owner-id=mcs"
-            - "--policy=upsert-only"
+            - "--log-level=debug"
+            - "--interval=10s"
           env: 
             - 
               name: OS_AUTH_URL
@@ -139,7 +140,6 @@ spec:
                 secretKeyRef: 
                   key: OS_USER_DOMAIN_NAME
                   name: otccred
-#          image: "mtr.external.otc.telekomcloud.com/mcsps/external-dns:v0.5.13-mcs-1"
           image: registry.opensource.zalan.do/teapot/external-dns
           name: external-dns
           resources: 
@@ -147,5 +147,3 @@ spec:
               cpu: 50m
               memory: 50Mi
       serviceAccountName: external-dns
-#      imagePullSecrets: 
-#        - name: mcsps-mtrdeployer-pull-secret
