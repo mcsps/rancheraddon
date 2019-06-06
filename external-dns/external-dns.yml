@@ -105,37 +105,37 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: OS_AUTH_URL
-                  name: otccred
+                  name: otcdnscred
             -
               name: OS_REGION_NAME
               valueFrom:
                 secretKeyRef:
                   key: OS_REGION_NAME
-                  name: otccred
+                  name: otcdnscred
             -
               name: OS_USERNAME
               valueFrom:
                 secretKeyRef:
                   key: OS_USERNAME
-                  name: otccred
+                  name: otcdnscred
             -
               name: OS_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: OS_PASSWORD
-                  name: otccred
+                  name: otcdnscred
             -
               name: OS_PROJECT_NAME
               valueFrom:
                 secretKeyRef:
                   key: OS_PROJECT_NAME
-                  name: otccred
+                  name: otcdnscred
             -
               name: OS_USER_DOMAIN_NAME
               valueFrom:
                 secretKeyRef:
                   key: OS_USER_DOMAIN_NAME
-                  name: otccred
+                  name: otcdnscred
           image: "registry.opensource.zalan.do/teapot/external-dns:latest"
           name: external-dns
           resources:
