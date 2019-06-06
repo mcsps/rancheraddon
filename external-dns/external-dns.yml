@@ -1,99 +1,95 @@
-    
 ---
 apiVersion: v1
-data: 
+data:
   .dockerconfigjson: ewogICJhdXRocyI6IHsKICAgICJtdHIuZXh0ZXJuYWwub3RjLnRlbGVrb21jbG91ZC5jb20iOiB7CiAgICAgICJhdXRoIjogImJXTnpjSE1yYlhSeVpHVndiRzk1WlhJNlZsZzJSVFJLVXpJeVRFUktUVkJVTWpreU0xQlFPVTFVV2sweE0wNVVOVVJST1RNeU1ETkpWbFJNU2sxQlVVdEhXVmsxVlRJeldWWkhWVVkyU1VwWk1nPT0iLAogICAgICAiZW1haWwiOiAiIgogICAgfQogIH0KfQ==
 kind: Secret
-metadata: 
+metadata:
   name: mcsps-mtrdeployer-pull-secret
   namespace: ingress-nginx
 type: kubernetes.io/dockerconfigjson
---- 
+---
 apiVersion: v1
 kind: ServiceAccount
-metadata: 
+metadata:
   name: external-dns
   namespace: ingress-nginx
-
---- 
+---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
-metadata: 
+metadata:
   name: external-dns
   namespace: ingress-nginx
-rules: 
-  - 
-    apiGroups: 
+rules:
+  -
+    apiGroups:
       - ""
-    resources: 
+    resources:
       - services
-    verbs: 
+    verbs:
       - get
       - watch
       - list
-  - 
-    apiGroups: 
+  -
+    apiGroups:
       - ""
-    resources: 
+    resources:
       - pods
-    verbs: 
+    verbs:
       - get
       - watch
       - list
-  - 
-    apiGroups: 
+  -
+    apiGroups:
       - extensions
-    resources: 
+    resources:
       - ingresses
-    verbs: 
+    verbs:
       - get
       - watch
       - list
-  - 
-    apiGroups: 
+  -
+    apiGroups:
       - ""
-    resources: 
+    resources:
       - nodes
-    verbs: 
+    verbs:
       - list
       - watch
-
---- 
+---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
-metadata: 
+metadata:
   name: external-dns-viewer
-roleRef: 
+roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: external-dns
-subjects: 
-  - 
+subjects:
+  -
     kind: ServiceAccount
     name: external-dns
     namespace: ingress-nginx
-
---- 
+---
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
-  labels: 
+metadata:
+  labels:
     app: external-dns
   name: external-dns-deployment
   namespace: ingress-nginx
-spec: 
+spec:
   replicas: 1
-  selector: 
-    matchLabels: 
+  selector:
+    matchLabels:
       app: external-dns
-  template: 
-    metadata: 
-      labels: 
+  template:
+    metadata:
+      labels:
         app: external-dns
-    spec: 
-      containers: 
-        - 
-          args: 
+    spec:
+      containers:
+        -
+          args:
             - "--domain-filter=mcsps.telekomcloud.com"
             - "--source=ingress"
             - "--source=service"
@@ -103,47 +99,47 @@ spec:
             - "--txt-owner-id=mcs"
             - "--log-level=debug"
             - "--interval=10s"
-          env: 
-            - 
+          env:
+            -
               name: OS_AUTH_URL
-              valueFrom: 
-                secretKeyRef: 
+              valueFrom:
+                secretKeyRef:
                   key: OS_AUTH_URL
                   name: otccred
-            - 
+            -
               name: OS_REGION_NAME
-              valueFrom: 
-                secretKeyRef: 
+              valueFrom:
+                secretKeyRef:
                   key: OS_REGION_NAME
                   name: otccred
-            - 
+            -
               name: OS_USERNAME
-              valueFrom: 
-                secretKeyRef: 
+              valueFrom:
+                secretKeyRef:
                   key: OS_USERNAME
                   name: otccred
-            - 
+            -
               name: OS_PASSWORD
-              valueFrom: 
-                secretKeyRef: 
+              valueFrom:
+                secretKeyRef:
                   key: OS_PASSWORD
                   name: otccred
-            - 
+            -
               name: OS_PROJECT_NAME
-              valueFrom: 
-                secretKeyRef: 
+              valueFrom:
+                secretKeyRef:
                   key: OS_PROJECT_NAME
                   name: otccred
-            - 
+            -
               name: OS_USER_DOMAIN_NAME
-              valueFrom: 
-                secretKeyRef: 
+              valueFrom:
+                secretKeyRef:
                   key: OS_USER_DOMAIN_NAME
                   name: otccred
-          image: registry.opensource.zalan.do/teapot/external-dns
+          image: "registry.opensource.zalan.do/teapot/external-dns:latest"
           name: external-dns
-          resources: 
-            requests: 
+          resources:
+            requests:
               cpu: 50m
               memory: 50Mi
-      serviceAccountName: external-dns
+serviceAccountName: external-dns
