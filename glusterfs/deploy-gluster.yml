@@ -6,16 +6,6 @@ metadata:
 
 ---
 apiVersion: v1
-data: 
-  .dockerconfigjson: ewogICJhdXRocyI6IHsKICAgICJtdHIuZXh0ZXJuYWwub3RjLnRlbGVrb21jbG91ZC5jb20iOiB7CiAgICAgICJhdXRoIjogImJXTnpjSE1yYlhSeVpHVndiRzk1WlhJNlZsZzJSVFJLVXpJeVRFUktUVkJVTWpreU0xQlFPVTFVV2sweE0wNVVOVVJST1RNeU1ETkpWbFJNU2sxQlVVdEhXVmsxVlRJeldWWkhWVVkyU1VwWk1nPT0iLAogICAgICAiZW1haWwiOiAiIgogICAgfQogIH0KfQ==
-kind: Secret
-metadata: 
-  name: mcsps-mtrdeployer-pull-secret
-  namespace: glusterstorage
-type: kubernetes.io/dockerconfigjson
-
----
-apiVersion: v1
 kind: ServiceAccount
 metadata: 
   name: glusterdeploy
@@ -107,7 +97,4 @@ spec:
           image: "mtr.external.otc.telekomcloud.com/mcsps/glusterdeploy:master"
           imagePullPolicy: Always
           name: glusterdeploy
-      imagePullSecrets: 
-        - 
-          name: mcsps-mtrdeployer-pull-secret
       serviceAccountName: glusterdeploy
