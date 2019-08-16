@@ -64,7 +64,7 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: default-glusterdeploy
+  name: default-rolebinding
   namespace: glusterstorage
 roleRef:
   apiGroup: rbac.authorization.k8s.io
