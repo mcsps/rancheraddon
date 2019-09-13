@@ -96,9 +96,10 @@ spec:
             - "--provider=designate"
             - "--registry=txt"
             - "--txt-prefix=_mcs_"
-            - "--txt-owner-id=mcs"
+            - "--txt-owner-id=$(K8S_NAME)"
             - "--log-level=debug"
             - "--interval=10s"
+            - "--policy=upsert-only"
           env:
             -
               name: OS_AUTH_URL
@@ -136,7 +137,13 @@ spec:
                 secretKeyRef:
                   key: OS_USER_DOMAIN_NAME
                   name: otcdnscred
-          image: "registry.opensource.zalan.do/teapot/external-dns:latest"
+            -
+              name: K8S_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: K8S_NAME
+                  name: otcdnscred
+          image: "registry.opensource.zalan.do/teapot/external-dns:v0.5.16"
           name: external-dns
           resources:
             requests:
