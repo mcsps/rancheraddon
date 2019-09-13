@@ -90,7 +90,7 @@ spec:
       containers:
         -
           args:
-            - "--domain-filter=$(OTC_DNSTENANT_DOMAIN_FILTER)"
+            - "--domain-filter=$(DNS_DOMAIN_FILTER)"
             - "--source=ingress"
             - "--source=service"
             - "--provider=designate"
@@ -143,10 +143,10 @@ spec:
                   key: K8S_NAME
                   name: otcdnscred
             -
-              name: OTC_DNSTENANT_DOMAIN_FILTER
+              name: DNS_DOMAIN_FILTER
               valueFrom:
                 secretKeyRef:
-                  key: OTC_DNSTENANT_DOMAIN_FILTER
+                  key: DNS_DOMAIN_FILTER
                   name: otcdnscred
           image: "registry.opensource.zalan.do/teapot/external-dns:v0.5.16"
           name: external-dns
