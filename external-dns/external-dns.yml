@@ -90,16 +90,15 @@ spec:
       containers:
         -
           args:
-            - "--domain-filter=mcsps.telekomcloud.com"
+            - "--domain-filter=$(OTC_DNSTENANT_DOMAIN_FILTER)"
             - "--source=ingress"
             - "--source=service"
             - "--provider=designate"
             - "--registry=txt"
             - "--txt-prefix=_$(K8S_NAME)_"
             - "--txt-owner-id=$(K8S_NAME)"
-            - "--log-level=debug"
+            - "--log-level=info"
             - "--interval=10s"
-            - "--policy=upsert-only"
           env:
             -
               name: OS_AUTH_URL
@@ -142,6 +141,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: K8S_NAME
+                  name: otcdnscred
+            -
+              name: OTC_DNSTENANT_DOMAIN_FILTER
+              valueFrom:
+                secretKeyRef:
+                  key: OTC_DNSTENANT_DOMAIN_FILTER
                   name: otcdnscred
           image: "registry.opensource.zalan.do/teapot/external-dns:v0.5.16"
           name: external-dns
