@@ -6,6 +6,7 @@ metadata:
 provisioner: kubernetes.io/cinder
 parameters:
   type: SATA
+volumeBindingMode: WaitForFirstConsumer  
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
@@ -14,6 +15,7 @@ metadata:
 provisioner: kubernetes.io/cinder
 parameters:
   type: SAS
+volumeBindingMode: WaitForFirstConsumer  
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
@@ -22,3 +24,4 @@ metadata:
 provisioner: kubernetes.io/cinder
 parameters:
   type: SSD
+volumeBindingMode: WaitForFirstConsumer  
